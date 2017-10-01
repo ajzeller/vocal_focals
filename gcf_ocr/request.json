@@ -1,0 +1,21 @@
+{
+  "requests": [
+    {
+      "image": {
+        "source": {
+          "imageUri": "https://github.com/ajzeller/vocal_focals/blob/master/camera_tests/test_images/starbucks_menu_1.jpg"
+        }
+      },
+      "features": [
+        {
+          "type": "LANDMARK_DETECTION",
+          "maxResults": 1
+        },
+        {
+          "type": "WEB_DETECTION",
+          "maxResults": 2
+        }
+      ]
+    }
+  ]
+}
