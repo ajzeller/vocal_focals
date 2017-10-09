@@ -1,7 +1,7 @@
 {
-  "RESULT_TOPIC": "[vocal_focals_result_topic]",
+  "RESULT_TOPIC": "vocal_focals_result_topic",
   "RESULT_BUCKET": "vocal_focals_text_staging_bucket",
-  "TRANSLATE_TOPIC": "[vocal_focals_translate_topic]",
+  "TRANSLATE_TOPIC": "vocal_focals_translate_topic",
   "TRANSLATE": true,
   "TO_LANG": ["en", "fr", "es", "ja", "ru"]
 }
