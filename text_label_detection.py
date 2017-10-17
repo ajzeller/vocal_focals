@@ -73,7 +73,7 @@ def main():
         voice_output_text = 'I found the following text: ' + image_text
 
         # Parse the most likely object label and add intro phrase
-        voice_output_labels = 'This object is most likely ' +
+        voice_output_labels = 'This object is most likely ' + \
           response["responses"][0]["labelAnnotations"][0]["description"] + '.'
 
         # create new .txt file with same name as image capture
@@ -103,7 +103,7 @@ def main():
 
         print(elapsed)
 
-        # create object for Google Text-to-speech audio output 
+        # create object for Google Text-to-speech audio output
         # language=English, slow audio speed
         audio_output = gTTS(text=output_str, lang='en', slow=True)
 
