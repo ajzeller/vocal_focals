@@ -77,7 +77,7 @@ def main():
           response["responses"][0]["labelAnnotations"][0]["description"] + '.'
 
         # create new .txt file with same name as image capture
-        output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] +
+        output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + \
           '.txt'
 
         # open .txt file
