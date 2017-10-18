@@ -34,7 +34,7 @@ def takephoto():
 def main():
 
     img_name_to_parse = takephoto() # First take a picture
-
+    print("image captured...")
     """Run a label request on a single image"""
 
     credentials = GoogleCredentials.get_application_default()
@@ -61,6 +61,7 @@ def main():
         })
 
         response = service_request.execute()
+        print("response received...")
 
         # parse the text annotations from the image and remove newlines
         if 'fullTextAnnotation' in response["responses"][0]:
