@@ -102,7 +102,7 @@ def main():
 
         # create object for Google Text-to-speech audio output
         # language=English, slow audio speed
-        audio_output = gTTS(text=output_str, lang='en', slow=True)
+        audio_output = gTTS(text=output_str, lang='en', slow=False)
 
         # name audio output file with same timestamp as captured image
         audio_output_file = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + '.mp3'
