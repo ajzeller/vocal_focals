@@ -63,18 +63,19 @@ def main():
 
         response = service_request.execute()
 
-        # parse the text annotations from the image
-        image_text = response["responses"][0]["fullTextAnnotation"]["text"]
+        # parse the text annotations from the image and remove newlines
+        if 'text' in response["responses"][0]["fullTextAnnotation"]:
+            image_text = 'I found the following text: ' + \
+            response["responses"][0]["fullTextAnnotation"]["text"].\
+            replace('\n',' ')
 
-        # remove newlines from text annotations
-        image_text = image_text.replace('\n',' ')
-
-        # Add introduction phrase
-        voice_output_text = 'I found the following text: ' + image_text
+        else:
+            image_text = "Sorry, I couldn't find any text."
 
         # Parse the most likely object label and add intro phrase
-        voice_output_labels = 'This object is most likely ' + \
-          response["responses"][0]["labelAnnotations"][0]["description"] + '.'
+        if 'description' in response["responses"][0]["labelAnnotations"][0]:
+            image_label = 'This object is most likely ' + \
+            response["responses"][0]["labelAnnotations"][0]["description"] + '.'
 
         # create new .txt file with same name as image capture
         output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + \
@@ -83,17 +84,11 @@ def main():
         # open .txt file
         text_file = open(output_filename,'w')
 
-        # concat the image text and labels for final output audio narration
-        output_str = voice_output_text + voice_output_labels
-
         # write the final output text to .txt file for debugging and close
-        text_file.write(output_str)
+        text_file.write(image_text + "\n" + image_label)
         text_file.close()
 
-        print(voice_output_text)
-        print
-        print(voice_output_labels)
-        print
+        print(image_text + " " + image_label)
 
         finish_time = time.time() # stop timer
 
