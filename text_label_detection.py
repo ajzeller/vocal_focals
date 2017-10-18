@@ -64,7 +64,7 @@ def main():
         response = service_request.execute()
 
         # parse the text annotations from the image and remove newlines
-        if 'text' in response["responses"][0]["fullTextAnnotation"]:
+        if 'fullTextAnnotation' in response["responses"][0]:
             image_text = 'I found the following text: ' + \
             response["responses"][0]["fullTextAnnotation"]["text"].\
             replace('\n',' ')
@@ -73,7 +73,7 @@ def main():
             image_text = "Sorry, I couldn't find any text."
 
         # Parse the most likely object label and add intro phrase
-        if 'description' in response["responses"][0]["labelAnnotations"][0]:
+        if 'labelAnnotations' in response["responses"][0]:
             image_label = 'This object is most likely ' + \
             response["responses"][0]["labelAnnotations"][0]["description"] + '.'
 
