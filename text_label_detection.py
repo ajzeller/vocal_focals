@@ -13,9 +13,7 @@ import argparse
 import base64
 import picamera
 import json
-import subprocess
 import time
-import subprocess
 from gtts import gTTS
 import os
 from googleapiclient import discovery
@@ -24,6 +22,7 @@ from oauth2client.client import GoogleCredentials
 # capture photo and name with timestamp
 
 def takephoto():
+    print("started takephoto")
     camera = picamera.PiCamera()
     camera.resolution = (1600, 1200) # sets camera resolution to 1600 x 1200 px
     timestr = time.strftime("%m-%d-%Y_%H-%M-%S")
