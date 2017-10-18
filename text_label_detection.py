@@ -84,11 +84,13 @@ def main():
         # open .txt file
         text_file = open(output_filename,'w')
 
+        output_str = image_text + "\n" + image_label
+
         # write the final output text to .txt file for debugging and close
-        text_file.write(image_text + "\n" + image_label)
+        text_file.write(output_str)
         text_file.close()
 
-        print(image_text + " " + image_label)
+        print(output_str)
 
         finish_time = time.time() # stop timer
 
