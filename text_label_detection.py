@@ -32,7 +32,6 @@ def takephoto():
     return img_filename
 
 def main():
-    start_time = time.time() # begin timer
 
     img_name_to_parse = takephoto() # First take a picture
 
@@ -55,7 +54,7 @@ def main():
                     },
                     {
                         'type': 'LABEL_DETECTION',
-                        'maxResults': 100
+                        'maxResults': 1
                     }
                 ]
             }]
@@ -91,14 +90,6 @@ def main():
         text_file.close()
 
         print(output_str)
-
-        finish_time = time.time() # stop timer
-
-        elapsed = finish_time - start_time # calculate elapsed time
-
-        elapsed = 'Elapsed time: ' + str(round(elapsed, 3)) + ' seconds.'
-
-        print(elapsed)
 
         # create object for Google Text-to-speech audio output
         # language=English, slow audio speed
