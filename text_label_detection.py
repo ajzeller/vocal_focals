@@ -76,6 +76,9 @@ def main():
             image_label = 'This object is most likely ' + \
             response["responses"][0]["labelAnnotations"][0]["description"] + '.'
 
+        else:
+            image_label = "I'm not sure what this object is."
+
         # create new .txt file with same name as image capture
         output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + \
           '.txt'
