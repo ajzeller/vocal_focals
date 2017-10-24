@@ -23,6 +23,7 @@ from oauth2client.client import GoogleCredentials
 
 def takephoto():
     print("started takephoto")
+    os.chdir(""/home/pi/vocal_focals_output")
     camera = picamera.PiCamera()
     camera.resolution = (1600, 1200) # sets camera resolution to 1600 x 1200 px
     timestr = time.strftime("%m-%d-%Y_%H-%M-%S")
@@ -34,6 +35,7 @@ def main():
 
     img_name_to_parse = takephoto() # First take a picture
     print("image captured...")
+    os.chdir(""/home/pi/vocal_focals_output")
     """Run a label request on a single image"""
 
     credentials = GoogleCredentials.get_application_default()
