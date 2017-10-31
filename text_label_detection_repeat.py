@@ -14,6 +14,7 @@ import base64
 import picamera
 import json
 import time
+import schedule
 from gtts import gTTS
 import os
 from googleapiclient import discovery
@@ -29,6 +30,7 @@ def takephoto():
     timestr = time.strftime("%m-%d-%Y_%H-%M-%S")
     img_filename = 'vf_capture_' + timestr + '.jpg'
     camera.capture(img_filename)
+    os.system('mpg321' + 'vocal_focals_capturing_scene.mp3')
     return img_filename
 
 def main():
@@ -36,6 +38,7 @@ def main():
     img_name_to_parse = takephoto() # First take a picture
     print("image captured...")
     os.chdir("/home/pi/vocal_focals/output")
+
     """Run a label request on a single image"""
 
     credentials = GoogleCredentials.get_application_default()
@@ -97,7 +100,7 @@ def main():
         print(output_str)
 
         # create object for Google Text-to-speech audio output
-        # language=English, slow audio speed
+        # language=English, normal audio speed
         audio_output = gTTS(text=output_str, lang='en', slow=False)
 
         # name audio output file with same timestamp as captured image
@@ -109,6 +112,8 @@ def main():
         # playback audio file with mpg321
         os.system("mpg321 " + audio_output_file)
 
-if __name__ == '__main__':
+schedule.every(30).seconds.do(main)
 
-    main()
+while True:
+    schedule.run_pending()
+    time.sleep(1)
