@@ -22,15 +22,17 @@ from oauth2client.client import GoogleCredentials
 
 # capture photo and name with timestamp
 
+# Initialize camera global only once
+camera = picamera.PiCamera()
+
 def takephoto():
     print("started takephoto")
     os.chdir("/home/pi/vocal_focals/output")
-    camera = picamera.PiCamera()
     camera.resolution = (1600, 1200) # sets camera resolution to 1600 x 1200 px
     timestr = time.strftime("%m-%d-%Y_%H-%M-%S")
     img_filename = 'vf_capture_' + timestr + '.jpg'
     camera.capture(img_filename)
-    os.system('mpg321' + 'vocal_focals_capturing_scene.mp3')
+    os.system('mpg321 ' + 'vocal_focals_capturing_scene.mp3')
     return img_filename
 
 def main():
