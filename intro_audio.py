@@ -1,4 +1,5 @@
 from gtts import gTTS
+import os
 
 def main():
     intro = "Welcome to Vocal Focals."

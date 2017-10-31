@@ -1,4 +1,5 @@
 from gtts import gTTS
+import os
 
 audio = "Scene captured... please wait."
 audio_output = gTTS(text=audio, lang='en', slow=False)
