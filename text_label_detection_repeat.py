@@ -32,7 +32,7 @@ def takephoto():
     timestr = time.strftime("%m-%d-%Y_%H-%M-%S")
     img_filename = 'vf_capture_' + timestr + '.jpg'
     camera.capture(img_filename)
-    os.system('mpg321 ' + 'vocal_focals_capturing_scene.mp3')
+    os.system('mpg321 ' + '../vocal_focals_capturing_scene.mp3')
     return img_filename
 
 def main():
