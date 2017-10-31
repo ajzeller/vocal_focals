@@ -20,7 +20,8 @@ import os
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
-time.sleep(10)
+time.sleep(1)
+os.chdir("/home/pi/vocal_focals")
 os.system('mpg321 vocal_focals_intro.mp3')
 
 # Initialize camera global only once
