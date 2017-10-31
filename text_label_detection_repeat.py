@@ -20,6 +20,8 @@ import os
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
+os.system('mpg321 vocal_focals_intro.mp3')
+
 # Initialize camera global only once
 camera = picamera.PiCamera()
 
