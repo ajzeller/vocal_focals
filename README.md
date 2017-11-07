@@ -7,7 +7,7 @@
 [vocalfocals.com](https://vocalfocals.com)
 
 ---
-This tutorial will walk through setting up a Raspberry Pi Zero W with the Google Cloud Vision API to detect text in an environment and then play that text
+This tutorial will walk through setting up a Raspberry Pi Zero W with the Google Cloud Vision API to detect text in an environment and then relay that text to the wearer over audio.
 
 Ingredients you will need:
 * 1 x Raspberry Pi Zero W
@@ -39,7 +39,7 @@ Password: raspberry
 You will need to do some housekeeping on the Raspberry Pi.
 
 ```
-Sudo raspi-config
+sudo raspi-config
 ```
 
 In *Interfacing Options*, enable the camera, enable SSH, and enable VNC server if they are not already enabled.
@@ -65,10 +65,50 @@ Configure your email:
 git config --global user.email email@example.com
 ```
 
+#### 4) Google Cloud Platform setup
 
+To detect text in the image captured by the Raspberry Pi, we will use the Google Cloud Vision (GCV) API on the Google Cloud Platform. While this is a paid product, Google offers 1000 API calls for free each month, enough to experience the concept in action.
 
+[Create a Google Cloud Platform account.](https://console.cloud.google.com/freetrial)
+
+...
+
+#### 5) Prepare the Raspberry Pi for GCV
 In the /home/pi/ directory, run:
 
 ```
 git clone https://github.com/ajzeller/vocal_focals.git
 ```
+
+You will need to upgrade Pip, the package manager for python installations:
+
+```
+sudo pip install --upgrade pip
+```
+
+```
+sudo apt-get install libjpeg8-dev
+```
+Next, you will install the Google API Python Client:
+
+```
+sudo pip install --upgrade google-api-python-client
+```
+
+Next, install Python Imaging Library:
+
+```
+sudo pip install --upgrade Pillow
+```
+Install Python PiCamera:
+
+```
+sudo apt-get install python-picamera
+```
+
+Install mpg321, a command line .mp3 player:
+```
+sudo apt-get -y install mpg321
+```
+
+*[API key JSON stuff here]*
