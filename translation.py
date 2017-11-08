@@ -13,4 +13,5 @@ payload = { 'target' : 'es',
 
 translation = requests.post(url, data=payload)
 
+print translation.text
 print translation
