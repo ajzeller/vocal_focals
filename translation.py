@@ -12,6 +12,8 @@ payload = { 'target' : 'es',
             'q' : text }
 
 translation = requests.post(url, data=payload)
+output = 'This translates to ' + translation["data"]["translations"]["translatedText"]
 
+print output
 print translation.text
 print translation
