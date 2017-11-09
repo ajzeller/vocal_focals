@@ -1,5 +1,7 @@
 import requests
 import os
+import json
+import pprint
 
 api_key = os.environ["API_KEY"]
 
@@ -12,8 +14,9 @@ payload = { 'target' : 'es',
             'q' : text }
 
 translation = requests.post(url, data=payload)
-translation = translation.json
-output = 'This translates to ' + translation["data"]["translations"]["translatedText"]
+translation = json.loads(translation.text)
+output =  translation['data']['translations'][0]['translatedText']
+output = 'This translates to ' + output
 
 print output
-print translation
+print(json.dumps(translation))
