@@ -52,6 +52,7 @@ def main():
     """Run a label request on a single image"""
 
     credentials = GoogleCredentials.get_application_default()
+    api_key = os.environ["API_KEY"]
     service = discovery.build('vision', 'v1', credentials=credentials)
 
     with open(img_name_to_parse, 'rb') as image:
@@ -75,18 +76,52 @@ def main():
         })
 
         response = service_request.execute()
+
         print("response received...")
 
-        # parse the text annotations from the image and remove newlines
-        if 'fullTextAnnotation' in response["responses"][0]:
+        lang = response["responses"][2]["textAnnotations"][2]["locale"]
+
+        text_exists = 'fullTextAnnotation' in response["responses"][0]
+
+        # check if any text was detected
+
+        if text_exists = 0:
+            image_text = "Sorry, I couldn't find any text."
+
+        # check if detected text is in English
+
+        elif  lang != 'en':
+            print("Language code " + lang + " detected.")
+
+            # translate text to English using Google Translate API
+
+            url = 'https://translation.googleapis.com/language/translate/v2'
+
+            image_text = response["responses"][0]["fullTextAnnotation"]\
+            ["text"].replace('\n',' ')
+
+            payload = { 'target' : lang,
+                        'key' : api_key,
+                        'q' : image_text }
+
+            translation_response = requests.post(url, data=payload)
+            translation_response = json.loads(translation.text)
+
+            image_text =  translation_response['data']['translations'][0]\
+            ['translatedText'].replace('\n',' ')
+
+            image_text = 'I found the following text: ' + image_text
+
+        # no translation necessary, parse the text annotations from the image
+        # and remove newlines
+
+        else 'fullTextAnnotation' in response["responses"][0]:
             image_text = 'I found the following text: ' + \
             response["responses"][0]["fullTextAnnotation"]["text"].\
             replace('\n',' ')
 
-        else:
-            image_text = "Sorry, I couldn't find any text."
-
         # Parse the most likely object label and add intro phrase
+
         if 'labelAnnotations' in response["responses"][0]:
             image_label = 'This object is most likely ' + \
             response["responses"][0]["labelAnnotations"][0]["description"] + '.'
@@ -95,15 +130,18 @@ def main():
             image_label = "I'm not sure what this object is."
 
         # create new .txt file with same name as image capture
+
         output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + \
           '.txt'
 
         # open .txt file
+
         text_file = open(output_filename,'w')
 
         output_str = image_text + "\n" + image_label
 
         # write the final output text to .txt file for debugging and close
+
         text_file.write(output_str)
         text_file.close()
 
@@ -111,15 +149,19 @@ def main():
 
         # create object for Google Text-to-speech audio output
         # language=English, normal audio speed
+
         audio_output = gTTS(text=output_str, lang='en', slow=False)
 
         # name audio output file with same timestamp as captured image
+
         audio_output_file = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + '.mp3'
 
         # save audio output file
+
         audio_output.save(audio_output_file)
 
         # playback audio file with mpg321
+        
         os.system("mpg321 " + audio_output_file)
 
 schedule.every(10).seconds.do(main)
