@@ -17,13 +17,17 @@ import time
 import schedule
 from gtts import gTTS
 import os
+import pprint
 import requests
+import sys
 from googleapiclient import discovery
 from oauth2client.client import GoogleCredentials
 
 time.sleep(1)
 os.chdir("/home/pi/vocal_focals")
 os.system('mpg321 vocal_focals_intro.mp3')
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Initialize camera global only once
 camera = picamera.PiCamera()
@@ -76,22 +80,20 @@ def main():
         })
 
         response = service_request.execute()
-
-        print("response received...")
-
-        lang = response["responses"][2]["textAnnotations"][2]["locale"]
-
+        
         text_exists = 'fullTextAnnotation' in response["responses"][0]
 
         # check if any text was detected
 
-        if text_exists = 0:
-            image_text = "Sorry, I couldn't find any text."
+        if text_exists == 0:
+            image_text = "Sorry, I couldn't find any text.   "
 
         # check if detected text is in English
 
-        elif  lang != 'en':
+        elif response["responses"][0]["textAnnotations"][0]["locale"] != 'en':
+            lang = response["responses"][0]["textAnnotations"][0]["locale"]
             print("Language code " + lang + " detected.")
+            
 
             # translate text to English using Google Translate API
 
@@ -100,22 +102,23 @@ def main():
             image_text = response["responses"][0]["fullTextAnnotation"]\
             ["text"].replace('\n',' ')
 
-            payload = { 'target' : lang,
+            payload = { 'target' : 'en',
                         'key' : api_key,
                         'q' : image_text }
 
             translation_response = requests.post(url, data=payload)
-            translation_response = json.loads(translation.text)
+            translation_response = json.loads(translation_response.text)
+            print(json.dumps(translation_response))
 
             image_text =  translation_response['data']['translations'][0]\
             ['translatedText'].replace('\n',' ')
 
-            image_text = 'I found the following text: ' + image_text
+            image_text = 'I found the following text: ' + image_text + '   '
 
         # no translation necessary, parse the text annotations from the image
         # and remove newlines
 
-        else 'fullTextAnnotation' in response["responses"][0]:
+        else:
             image_text = 'I found the following text: ' + \
             response["responses"][0]["fullTextAnnotation"]["text"].\
             replace('\n',' ')
