@@ -74,13 +74,18 @@ def main():
                     {
                         'type': 'LABEL_DETECTION',
                         'maxResults': 1
+                    },
+                    {
+                        'type': 'LOGO_DETECTION',
+                        'maxResults': 1
+
                     }
                 ]
             }]
         })
 
         response = service_request.execute()
-        
+
         text_exists = 'fullTextAnnotation' in response["responses"][0]
 
         # check if any text was detected
@@ -93,7 +98,7 @@ def main():
         elif response["responses"][0]["textAnnotations"][0]["locale"] != 'en':
             lang = response["responses"][0]["textAnnotations"][0]["locale"]
             print("Language code " + lang + " detected.")
-            
+
 
             # translate text to English using Google Translate API
 
@@ -132,6 +137,15 @@ def main():
         else:
             image_label = "I'm not sure what this object is."
 
+        # Logo Detection
+
+        if 'logoAnnotations' in response["responses"][0]:
+            image_logo = 'I found a logo for ' + \
+            response["responses"][0]["logoAnnotations"][0]["description"] + '.'
+
+        else:
+            print("No logos found.")
+
         # create new .txt file with same name as image capture
 
         output_filename = img_name_to_parse.rsplit( ".", 1 )[ 0 ] + \
@@ -141,7 +155,7 @@ def main():
 
         text_file = open(output_filename,'w')
 
-        output_str = image_text + "\n" + image_label
+        output_str = image_text + "\n" + image_label + "\n" image_logo
 
         # write the final output text to .txt file for debugging and close
 
@@ -164,7 +178,7 @@ def main():
         audio_output.save(audio_output_file)
 
         # playback audio file with mpg321
-        
+
         os.system("mpg321 " + audio_output_file)
 
 schedule.every(10).seconds.do(main)
