@@ -144,6 +144,7 @@ def main():
             response["responses"][0]["logoAnnotations"][0]["description"] + '.'
 
         else:
+            image_logo = ' ' 
             print("No logos found.")
 
         # create new .txt file with same name as image capture
@@ -155,7 +156,7 @@ def main():
 
         text_file = open(output_filename,'w')
 
-        output_str = image_text + "\n" + image_label + "\n" image_logo
+        output_str = image_text + "\n" + image_label + "\n" + image_logo
 
         # write the final output text to .txt file for debugging and close
 
@@ -181,7 +182,7 @@ def main():
 
         os.system("mpg321 " + audio_output_file)
 
-schedule.every(10).seconds.do(main)
+schedule.every(5).seconds.do(main)
 
 while True:
     schedule.run_pending()

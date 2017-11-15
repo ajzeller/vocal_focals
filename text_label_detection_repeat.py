@@ -117,7 +117,7 @@ def main():
         # playback audio file with mpg321
         os.system("mpg321 " + audio_output_file)
 
-schedule.every(10).seconds.do(main)
+schedule.every(2).seconds.do(main)
 
 while True:
     schedule.run_pending()
