@@ -49,6 +49,8 @@ def takephoto():
 
 def main():
 
+    start_time = time.time()
+
     img_name_to_parse = takephoto() # First take a picture
     print("image captured...")
     os.chdir("/home/pi/vocal_focals/output")
@@ -144,7 +146,7 @@ def main():
             response["responses"][0]["logoAnnotations"][0]["description"] + '.'
 
         else:
-            image_logo = ' ' 
+            image_logo = ' '
             print("No logos found.")
 
         # create new .txt file with same name as image capture
@@ -177,6 +179,16 @@ def main():
         # save audio output file
 
         audio_output.save(audio_output_file)
+
+        # record elapsed time and append to txt file
+
+        finish_time = time.time()
+
+        elapsed = finish_time - start_time
+        elapsed = ' Elapsed time: ' + str(round(elapsed, 3)) + ' seconds.'
+
+        with open(output_filename, "a") as txtoutputfile:
+            txtoutputfile.write(elapsed)
 
         # playback audio file with mpg321
 
